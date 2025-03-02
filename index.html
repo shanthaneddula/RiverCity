@@ -10,7 +10,7 @@
     <style>
         :root {
             --primary-color: #2c3e50;
-            --secondary-color: #e67e22;
+            --secondary-color: #3498db; /* Changed from orange to blue */
             --accent-color: #3498db;
             --light-bg: #f9f9f9;
             --dark-text: #333;
@@ -65,7 +65,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.6); /* Darkened for better visibility */
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -80,16 +80,21 @@
         }
         
         .store-name-river {
-            font-family: 'Satisfy', cursive;
-            font-size: 2.8rem;
             font-weight: 700;
-            margin-right: 5px;
+            font-style: italic;
+            font-size: 2.8rem;
+            margin-right: 0;
         }
         
         .store-name-city {
-            font-family: 'Poppins', sans-serif;
-            font-size: 2.5rem;
             font-weight: 700;
+            font-size: 2.8rem;
+        }
+        
+        .store-name-market {
+            font-weight: 700;
+            font-size: 2.8rem;
+            margin-left: 5px;
         }
         
         .tagline {
@@ -105,6 +110,10 @@
             gap: 15px;
             margin-bottom: 10px;
             font-size: 0.9rem;
+        }
+        
+        .location {
+            cursor: pointer;
         }
         
         .open-status {
@@ -136,19 +145,25 @@
             background-color: var(--secondary-color);
             color: var(--light-text);
             border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 5px;
             cursor: pointer;
             box-shadow: var(--box-shadow);
+            text-decoration: none;
+            font-weight: 500;
             transition: transform 0.2s ease;
         }
         
+        .action-btn img {
+            height: 20px;
+            width: auto;
+        }
+        
         .action-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
         
         /* Navigation Styles */
@@ -307,7 +322,9 @@
         }
         
         .order-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             padding: 10px 20px;
             background-color: var(--secondary-color);
             color: var(--light-text);
@@ -317,8 +334,13 @@
             transition: background-color 0.3s ease;
         }
         
+        .order-btn img {
+            height: 20px;
+            width: auto;
+        }
+        
         .order-btn:hover {
-            background-color: #d35400;
+            background-color: #2980b9;
         }
         
         .back-to-top {
@@ -356,8 +378,10 @@
                 grid-template-columns: 1fr;
             }
             
-            .store-name-river, .store-name-city {
-                font-size: 1.8rem;
+            .store-name-river, 
+            .store-name-city,
+            .store-name-market {
+                font-size: 2.2rem;
             }
             
             .section-title {
@@ -372,20 +396,59 @@
                 width: 60px;
                 height: 60px;
             }
+            
+            .action-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .action-btn img {
+                height: 16px;
+            }
+            
+            .quick-actions {
+                top: 60px;
+            }
+        }
+        
+        /* Ensure the logo is visible on mobile */
+        @media (max-width: 480px) {
+            .header-overlay {
+                justify-content: center;
+                text-align: center;
+                background: rgba(0, 0, 0, 0.7); /* Even darker for mobile */
+            }
+            
+            .store-name {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .store-name-river, 
+            .store-name-city,
+            .store-name-market {
+                font-size: 1.8rem;
+                margin: 0;
+            }
+            
+            .location-status {
+                flex-direction: column;
+                gap: 5px;
+            }
         }
     </style>
 </head>
 <body>
     <header id="header">
-        <img src="/api/placeholder/800/400" alt="RiverCity Market Front View" class="header-image" id="headerImage">
+        <img src="image1.jpg" alt="RiverCity Market Front View" class="header-image" id="headerImage">
         <div class="header-overlay">
             <div class="store-name">
-                <span class="store-name-river">River</span>
-                <span class="store-name-city">City Market</span>
+                <span class="store-name-river">RiverCity</span>
+                <span class="store-name-market">MARKET</span>
             </div>
             <p class="tagline">Good vibes and great bites - what more do you need?</p>
             <div class="location-status">
-                <div class="location">2209 S Congress Ave, Austin, TX 78704</div>
+                <div class="location" id="locationLink">2209 S Congress Ave, Austin, TX 78704</div>
                 <div class="open-status">
                     <span class="status-indicator"></span>
                     <span>Open Now</span>
@@ -395,21 +458,13 @@
     </header>
     
     <div class="quick-actions" id="quickActions">
-        <a href="#" class="action-btn" title="Order on DoorDash">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 4v16m-8-8h16"></path>
-            </svg>
+        <a href="https://www.doordash.com/store/rivercity-market-austin" class="action-btn" title="Order on DoorDash">
+            <img src="doordash-logo.png" alt="DoorDash">
+            Order on DoorDash
         </a>
-        <a href="#" class="action-btn" title="Order on UberEats">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-        </a>
-        <a href="#" class="action-btn" title="Get Directions">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-            </svg>
+        <a href="https://www.ubereats.com/store/rivercity-market-austin" class="action-btn" title="Order on UberEats">
+            <img src="ubereats-logo.png" alt="UberEats">
+            Order on UberEats
         </a>
     </div>
     
@@ -441,7 +496,7 @@
                         </div>
                         <p class="item-description">Juicy beef patty with lettuce, tomato, onion, and our special sauce on a toasted bun.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Classic Burger" class="item-image">
+                    <img src="image3.jpg" alt="Classic Burger" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -451,7 +506,7 @@
                         </div>
                         <p class="item-description">Our classic burger with spicy jalapeños, pepper jack cheese, and chipotle mayo.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Jalapeno Burger" class="item-image">
+                    <img src="image4.jpg" alt="Jalapeno Burger" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -461,7 +516,7 @@
                         </div>
                         <p class="item-description">Fresh avocado slices, bacon, lettuce, and tomato with our homemade aioli.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Avocado Burger" class="item-image">
+                    <img src="burger-avocado.jpg" alt="Avocado Burger" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -471,7 +526,7 @@
                         </div>
                         <p class="item-description">Sautéed mushrooms with Swiss cheese and our signature umami sauce.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Mushroom Burger" class="item-image">
+                    <img src="burger-mushroom.jpg" alt="Mushroom Burger" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -481,7 +536,7 @@
                         </div>
                         <p class="item-description">Crispy bacon strips, cheddar cheese, and BBQ sauce on our classic burger.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Bacon Burger" class="item-image">
+                    <img src="burger-bacon.jpg" alt="Bacon Burger" class="item-image">
                 </div>
             </div>
         </section>
@@ -498,7 +553,7 @@
                         </div>
                         <p class="item-description">Thinly sliced ribeye steak with melted provolone, grilled onions, and peppers.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Beef Philly" class="item-image">
+                    <img src="beef-philly.jpg" alt="Beef Philly" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -508,7 +563,7 @@
                         </div>
                         <p class="item-description">Grilled chicken with melted cheese, sautéed onions, and bell peppers.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Chicken Philly" class="item-image">
+                    <img src="chicken-philly.jpg" alt="Chicken Philly" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -518,7 +573,7 @@
                         </div>
                         <p class="item-description">Thinly sliced gyro meat with melted cheese, onions, and our house spices.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Gyro Sandwich" class="item-image">
+                    <img src="gyro-sandwich.jpg" alt="Gyro Sandwich" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -528,13 +583,10 @@
                         </div>
                         <p class="item-description">Seasoned lamb with melted cheese, sautéed onions, and our special sauce.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Lamb Sandwich" class="item-image">
+                    <img src="lamb-sandwich.jpg" alt="Lamb Sandwich" class="item-image">
                 </div>
             </div>
         </section>
-
-        <!-- More sections follow the same pattern -->
-        <!-- For brevity, I'll show just a couple more sections -->
 
         <!-- Entrees Section -->
         <section id="entrees" class="menu-section">
@@ -548,7 +600,7 @@
                         </div>
                         <p class="item-description">Beef Fajitas, Shrimp, Sausage, Rice, Beans, Salsa, Lime, Pico de Gallo, Tortillas</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Mix Mex Grill" class="item-image">
+                    <img src="mix-mex-grill.jpg" alt="Mix Mex Grill" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -558,7 +610,7 @@
                         </div>
                         <p class="item-description">Grilled flour tortilla filled with melted cheese and your choice of protein.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Quesadilla" class="item-image">
+                    <img src="quesadilla.jpg" alt="Quesadilla" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -568,7 +620,7 @@
                         </div>
                         <p class="item-description">Crispy spicy chicken breast with lettuce, pickles, and our signature sauce.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="Spicy Chicken Sandwich" class="item-image">
+                    <img src="spicy-chicken.jpg" alt="Spicy Chicken Sandwich" class="item-image">
                 </div>
             </div>
         </section>
@@ -585,7 +637,7 @@
                         </div>
                         <p class="item-description">Eight crispy chicken wings with your choice of flavor.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="8 PC Wings" class="item-image">
+                    <img src="wings-8pc.jpg" alt="8 PC Wings" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -595,7 +647,7 @@
                         </div>
                         <p class="item-description">Sixteen crispy chicken wings with your choice of flavor.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="16 PC Wings" class="item-image">
+                    <img src="wings-16pc.jpg" alt="16 PC Wings" class="item-image">
                 </div>
                 <div class="menu-item">
                     <div class="item-content">
@@ -605,7 +657,7 @@
                         </div>
                         <p class="item-description">Twenty-four crispy chicken wings with your choice of flavor.</p>
                     </div>
-                    <img src="/api/placeholder/160/160" alt="24 PC Wings" class="item-image">
+                    <img src="wings-24pc.jpg" alt="24 PC Wings" class="item-image">
                 </div>
             </div>
             <p class="flavor-options">Available flavors: Buffalo, Honey Hot, Mango Habanero, Lemon Pepper</p>
@@ -615,10 +667,16 @@
         <section id="contact" class="contact-info">
             <h2 class="contact-title">Contact</h2>
             <p class="contact-detail">For catering orders, call: <a href="tel:512-462-4955">512-462-4955</a></p>
-            <p class="contact-detail">Address: 2209 S Congress Ave, Austin, TX 78704</p>
+            <p class="contact-detail">Address: <a href="https://maps.google.com/?q=2209+S+Congress+Ave,+Austin,+TX+78704" target="_blank">2209 S Congress Ave, Austin, TX 78704</a></p>
             <div class="order-links">
-                <a href="#" class="order-btn">Order on DoorDash</a>
-                <a href="#" class="order-btn">Order on UberEats</a>
+                <a href="https://www.doordash.com/store/rivercity-market-austin" class="order-btn" target="_blank">
+                    <img src="doordash-logo.png" alt="DoorDash">
+                    Order on DoorDash
+                </a>
+                <a href="https://www.ubereats.com/store/rivercity-market-austin" class="order-btn" target="_blank">
+                    <img src="ubereats-logo.png" alt="UberEats">
+                    Order on UberEats
+                </a>
             </div>
         </section>
     </div>
@@ -633,7 +691,13 @@
             const quickActions = document.getElementById('quickActions');
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('.menu-section');
+            const locationLink = document.getElementById('locationLink');
             let headerTransitioned = false;
+            
+            // Make location clickable to open in maps
+            locationLink.addEventListener('click', function() {
+                window.open('https://maps.google.com/?q=2209+S+Congress+Ave,+Austin,+TX+78704', '_blank');
+            });
             
             // Function to handle scroll events
             window.addEventListener('scroll', function() {
@@ -641,11 +705,11 @@
                 
                 // Header image transition
                 if (scrollY > 100 && !headerTransitioned) {
-                    headerImage.src = "/api/placeholder/800/300"; // Change to Image2
+                    headerImage.src = "image2.jpg"; // Change to food image
                     headerImage.classList.add('scrolled');
                     headerTransitioned = true;
                 } else if (scrollY <= 100 && headerTransitioned) {
-                    headerImage.src = "/api/placeholder/800/400"; // Change back to Image1
+                    headerImage.src = "image1.jpg"; // Change back to logo
                     headerImage.classList.remove('scrolled');
                     headerTransitioned = false;
                 }
