@@ -3,27 +3,698 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Food Menu</title>
+    <title>RiverCity Market - Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e67e22;
+            --accent-color: #3498db;
+            --light-bg: #f9f9f9;
+            --dark-text: #333;
+            --light-text: #fff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 20px 0;
             text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--box-shadow);
         }
-        h1 {
-            color: #333;
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border: 2px solid #444;
-            padding: 10px;
-            background: white;
+        
+        .tagline {
+            font-size: 1rem;
+            font-weight: 300;
+            font-style: italic;
+        }
+        
+        nav {
+            background-color: var(--secondary-color);
+            padding: 10px 0;
+            position: sticky;
+            top: 80px;
+            z-index: 99;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0 10px;
+        }
+        
+        .nav-link {
+            color: var(--light-text);
+            text-decoration: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .menu-section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .menu-item {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background-color: var(--light-bg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .price {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+        
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .flavor-options {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .taco-note {
+            margin-top: 15px;
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .contact-info {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+        
+        .contact-title {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .contact-detail {
+            margin-bottom: 8px;
+        }
+        
+        .contact-detail a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .contact-detail a:hover {
+            text-decoration: underline;
+        }
+        
+        .order-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .order-btn:hover {
+            background-color: #d35400;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: var(--box-shadow);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .back-to-top:hover {
+            opacity: 1;
+        }
+
+        /* Specific section layouts */
+        .loaded-fries-section .menu-items,
+        .loaded-chips-section .menu-items,
+        .breakfast-options-section .menu-items {
+            grid-template-columns: 1fr;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            nav {
+                top: 70px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Our Menu</h1>
-    <img src="menu.jpeg" alt="Fast Food Menu">
+    <header>
+        <div class="container">
+            <h1 class="logo">RiverCity Market</h1>
+            <p class="tagline">Good vibes and great bites - what more do you need?</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <a href="#burgers" class="nav-link">Burgers</a>
+            <a href="#cheesesteak" class="nav-link">Philly Cheesesteak</a>
+            <a href="#entrees" class="nav-link">Entrees</a>
+            <a href="#wings" class="nav-link">Wings</a>
+            <a href="#shawarma-bowl" class="nav-link">Shawarma Bowls</a>
+            <a href="#wraps" class="nav-link">Wraps</a>
+            <a href="#tacos" class="nav-link">Tacos</a>
+            <a href="#loaded-fries" class="nav-link">Loaded Fries</a>
+            <a href="#breakfast" class="nav-link">Breakfast</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Burgers Section -->
+        <section id="burgers" class="menu-section">
+            <h2 class="section-title">Burgers With Fries</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Classic Burger</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Jalapeno Burger</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Avocado Burger</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Mushroom Burger</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Bacon Burger</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Philly Cheesesteak Section -->
+        <section id="cheesesteak" class="menu-section">
+            <h2 class="section-title">Philly Cheesesteak & Fries</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Sandwich</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Chicken Sandwich</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Gyro Sandwich</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Lamb Sandwich</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Entrees Section -->
+        <section id="entrees" class="menu-section">
+            <h2 class="section-title">Entrees</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Mix Mex Grill</span>
+                        <span class="price">$18.99</span>
+                    </div>
+                    <p class="item-description">Served with: Beef Fajitas, Shrimp, Sausage, Rice, Beans, Salsa, Lime, Pico de Gallo, Tortillas</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Quesadilla</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Spicy Chicken Sandwich & Fries</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wings Section -->
+        <section id="wings" class="menu-section">
+            <h2 class="section-title">Chicken Wings by the Piece</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>8 PCS</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>16 PCS</span>
+                        <span class="price">$25.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>24 PCS</span>
+                        <span class="price">$38.99</span>
+                    </div>
+                </div>
+            </div>
+            <p class="flavor-options">Available flavors: Buffalo, Honey Hot, Mango Habanero, Lemon Pepper</p>
+        </section>
+
+        <!-- Shawarma Bowl Section -->
+        <section id="shawarma-bowl" class="menu-section">
+            <h2 class="section-title">Shawarma Bowl Over Rice</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Gyro Over Rice</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Chicken Over Rice</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Over Rice</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Lamb Over Rice</span>
+                        <span class="price">$13.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Barbacoa Over Rice</span>
+                        <span class="price">$13.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Kebab Over Rice</span>
+                        <span class="price">$13.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Fish Over Rice</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Combo Over Rice</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Falafel Over Rice (Vege)</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+            </div>
+            <p class="item-description" style="text-align: center; margin-top: 15px;">Served with Salad, White Garlic Sauce, Red Hot Sauce</p>
+        </section>
+
+        <!-- Wraps Section -->
+        <section id="wraps" class="menu-section">
+            <h2 class="section-title">Shawarma Wrap</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Gyro Wrap</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Chicken Wrap</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Wrap</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Lamb Wrap</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Barbacoa Wrap</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Kebab Wrap</span>
+                        <span class="price">$12.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Fish Wrap</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Combo Wrap</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Falafel Wrap (Vege)</span>
+                        <span class="price">$11.99</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tacos Section -->
+        <section id="tacos" class="menu-section">
+            <h2 class="section-title">Tacos</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Gyro Taco</span>
+                        <span class="price">$4.29</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Lamb Taco</span>
+                        <span class="price">$4.29</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Barbacoa Taco</span>
+                        <span class="price">$4.49</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Chicken Taco</span>
+                        <span class="price">$3.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Taco</span>
+                        <span class="price">$4.29</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Fajita Tacos</span>
+                        <span class="price">$4.29</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Chorizo Taco</span>
+                        <span class="price">$3.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Fish Taco</span>
+                        <span class="price">$3.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Shrimp Taco</span>
+                        <span class="price">$4.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Falafel Taco (Vege)</span>
+                        <span class="price">$3.99</span>
+                    </div>
+                </div>
+            </div>
+            <p class="taco-note">All tacos served with cilantro and onion in flour or corn tortilla.</p>
+        </section>
+
+        <!-- Loaded Fries Section -->
+        <section id="loaded-fries" class="menu-section loaded-fries-section">
+            <h2 class="section-title">Loaded Fries</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Gyro Fries</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Beef Fries</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Barbacoa Fries</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Chicken Fries</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loaded Chips Section -->
+        <section class="menu-section loaded-chips-section">
+            <h2 class="section-title">Loaded Chips Bag</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Bring Your Own Bag of Chips</span>
+                        <span class="price">$9.99</span>
+                    </div>
+                    <p class="item-description">Select any protein and toppings</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Breakfast Section -->
+        <section id="breakfast" class="menu-section">
+            <h2 class="section-title">Breakfast Tacos & Burritos</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Breakfast Tacos</span>
+                        <span class="price">$3.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Breakfast Burrito</span>
+                        <span class="price">$9.99</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-items breakfast-options-section">
+                <div class="menu-item">
+                    <p>Potato Egg & Cheese • Bacon Egg & Cheese • Chorizo Egg & Cheese • Sausage Egg & Cheese • Ham Egg & Cheese • Steak Egg & Cheese • Egg Bean & Cheese • Ranchero Egg & Cheese • Migas Egg & Cheese • Bean & Cheese</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="section-title">Breakfast Sandwiches</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Bacon Egg & Cheese</span>
+                        <span class="price">$5.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Sausage Egg & Cheese</span>
+                        <span class="price">$5.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Ham Egg & Cheese</span>
+                        <span class="price">$5.99</span>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-name">
+                        <span>Egg & Cheese</span>
+                        <span class="price">$5.49</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-items breakfast-options-section" style="margin-top: 15px;">
+                <div class="menu-item">
+                    <p style="text-align: center;"><strong>Select Bread:</strong><br>Croissant • Everything Bagel • White Bread</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-info">
+            <h2 class="contact-title">Contact</h2>
+            <p class="contact-detail">For catering orders, call: <a href="tel:512-462-4955">512-462-4955</a></p>
+            <p class="contact-detail">Address: 2209 S Congress Ave, Austin, TX 78704</p>
+            <a href="https://www.doordash.com/convenience/store/24683717" class="order-btn" target="_blank">Order on DoorDash</a>
+        </section>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
 </body>
 </html>
